@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Imageception</title>
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" href="static/styles.css">
+</head>
+<body>
+<center>
+<div id="main-header" class="topbar">
+  <h1 id="title">Imageception Generator</h1>
+  <img src="/static/generator/base.png" style="width: 5rem; height: 5rem">
+</div>
+<div id="form1" class="form">
+  <form action="/generate" method="post">
+    <h2>Generate Your Text-Embedded Image:</h2>
+    <input type="text" name="text">
+    <input type="submit" value="Generate" name="submit1">
+  </form>
+</div>
+<div id="form2" class="form">
+  <form action="/upload" method="post" enctype="multipart/form-data">
+      <h2>Or Change Base Image:</h2>
+      <input type="file" name="file">
+      <input type="submit" value="Upload Image" name="submit2">
+  </form>
+</div>
+</center>
+</body>
+</html>
