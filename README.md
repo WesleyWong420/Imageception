@@ -59,7 +59,9 @@ def download():
 ### Unrestricted File Upload
 **CAPEC-17: Using Malicious Files**
 
-The system does not implement any form of validation checks to ensure the integrity and safety of the uploaded file before saving it to the destination folder. The uploaded file is saved directly upon receiving the file from upstream. In addition to that, the use of os.path.join() function also introduces Directory Traversal vulnerability when constructing the file path for saving the uploaded file. The combination of these 2 vulnerabilities allows an attacker to upload malicious files to any arbitrary location.
+The system does not implement any form of validation checks to ensure the integrity and safety of the uploaded file before saving it to the destination folder. The uploaded file is saved directly upon receiving the file from upstream. 
+
+In addition to that, the use of *os.path.join()* function also introduces Directory Traversal vulnerability when constructing the file path for saving the uploaded file. The combination of these 2 vulnerabilities allows an attacker to upload malicious files to any arbitrary location.
 
 ```
 @app.route('/upload', methods=['POST'])
@@ -73,9 +75,9 @@ def upload():
     return redirect(url_for('static', filename='uploads/' + filename), code=301)
 ```
 
-[Uploading Python File](./resources/Unrestricted-File-Upload-1.png)
-[Content of Python Script](./resources/Unrestricted-File-Upload-2.png)
-[Manipulate Upload Desination](./resources/Unrestricted-File-Upload-3.png)
-[Result](./resources/Unrestricted-File-Upload-4.png)
+[[Uploading Python File]](./resources/Unrestricted-File-Upload-1.png)
+[[Content of Python Script]](./resources/Unrestricted-File-Upload-2.png)
+[[Manipulate Upload Desination]](./resources/Unrestricted-File-Upload-3.png)
+[[Result]](./resources/Unrestricted-File-Upload-4.png)
 
 ## Secure Coding Concepts
