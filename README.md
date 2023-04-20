@@ -20,6 +20,7 @@ curl http://localhost:1005
 
 ## Vulnerability Exploitation
 ### OS Command Injection
+**CAPEC-88: OS Command Injection**
 User input is received from the client-side without enforcing proper input validation. Unsanitized user input is passed downstream to the generator component and used directly as a parameter for *os.system()*. The *os.system()* function is used by Imageception to invoke *generate.py* as a way to implement image generation.
 
 ```
@@ -40,7 +41,8 @@ def generate():
 [[Result]](./resources/OS-Command-Injection-2.png)
 
 ### Directory Traversal
-The *file* parameter (unvalidated path) in the query string of the UR  is used directly in send_file() to return the specified file without any proper validation or sanitization.
+**CAPEC-126: Path Traversal **
+The *file* parameter (unvalidated path) in the query string of the UR  is used directly in *send_file()* to return the specified file without any proper validation or sanitization.
 
 ```
 @app.route("/download")
@@ -53,9 +55,24 @@ def download():
 [[Result]](./resources/Directory-Traversal-2.png)
 
 ### Unrestricted File Upload
-![](./resources/Unrestricted-File-Upload-1.png)
-![](./resources/Unrestricted-File-Upload-2.png)
-![](./resources/Unrestricted-File-Upload-3.png)
-![](./resources/Unrestricted-File-Upload-4.png)
+**CAPEC-17: Using Malicious Files**
+
+
+```
+@app.route('/upload', methods=['POST'])
+def upload():
+    if not os.path.exists(UPLOAD_FOLDER):
+        os.makedirs(UPLOAD_FOLDER)
+
+    file = request.files["file"]
+    filename = file.filename
+    file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+    return redirect(url_for('static', filename='uploads/' + filename), code=301)
+```
+
+[Uploading Python File](./resources/Unrestricted-File-Upload-1.png)
+[Content of Python Script](./resources/Unrestricted-File-Upload-2.png)
+[Manipulate Upload Desination](./resources/Unrestricted-File-Upload-3.png)
+[Result](./resources/Unrestricted-File-Upload-4.png)
 
 ## Secure Coding Concepts
