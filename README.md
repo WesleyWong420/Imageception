@@ -1,6 +1,6 @@
 # Imageception
 Flask Powered Vulnerable Image Generator
-![](./resources/main-1.png)
+![](./resources/Main-1.png)
 
 ## Installation
 ```
