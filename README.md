@@ -1,5 +1,4 @@
 # Imageception
-Flask Powered Vulnerable Image Generator
 
 ![](./resources/Main-1.png)
 
