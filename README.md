@@ -1,6 +1,12 @@
 # Imageception
 Flask Powered Vulnerable Image Generator
+
+## Features
+### Generate Text-embedded Image
 ![](./resources/Main-1.png)
+
+### Change Base Image
+![](./resources/Main-2.png)
 
 ## Installation
 ```
