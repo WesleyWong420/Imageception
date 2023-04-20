@@ -9,7 +9,6 @@ chmod +x build.sh
 ./build.sh
 curl http://localhost:1005
 ```
-
 ## Potential Vulnerabilities
 | Vulnerability            | Mitigation Measure         | Common Weakness Enumeration (CWE) |
 |:------------------------:|:--------------------------:|:---------------------------------:|
