@@ -2,7 +2,7 @@
 Flask Powered Vulnerable Image Generator
 
 ## Features
-### Generate Text-embedded Image
+### Generate Text-Embedded Image
 ![](./resources/Main-1.png)
 
 ### Change Base Image
@@ -25,7 +25,17 @@ curl http://localhost:1005
 
 ## Vulnerability Exploitation
 ### OS Command Injection
-### Directory Trasversal
+![](./resources/OS-Command-Injection-1.png)
+![](./resources/OS-Command-Injection-2.png)
+
+### Directory Traversal
+![](./resources/Directory-Traversal-1.png)
+![](./resources/Directory-Traversal-2.png)
+
 ### Unrestricted File Upload
+![](./resources/Unrestricted-File-Upload-1.png)
+![](./resources/Unrestricted-File-Upload-2.png)
+![](./resources/Unrestricted-File-Upload-3.png)
+![](./resources/Unrestricted-File-Upload-4.png)
 
 ## Secure Coding Concepts
