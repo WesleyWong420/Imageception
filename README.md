@@ -113,7 +113,9 @@ def download():
 ```
 
 ### Extension Whitelisting & Magic Header Validation (File Attributes Validation)
-
+- Define a whitelist of allowed file extensions.
+- Specify the maximum file size of 24MB.
+- Extract the header signature of the file stream.
 
 ```
 app = Flask(__name__)
