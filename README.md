@@ -20,7 +20,7 @@ curl http://localhost:1005
 
 ## Vulnerability Exploitation
 ### OS Command Injection
-User input is received from the client-side without enforcing proper input validation. Unsanitized user input is passed downstream to the generator component and used directly as a parameter for os.system() in Line 27. The os.system() function is used by Imageception to invoke generate.py as a way to implement image generation.
+User input is received from the client-side without enforcing proper input validation. Unsanitized user input is passed downstream to the generator component and used directly as a parameter for *os.system()*. The *os.system()* function is used by Imageception to invoke *generate.py* as a way to implement image generation.
 
 ```
 @app.route('/generate', methods=['POST'])
