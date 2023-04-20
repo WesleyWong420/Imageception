@@ -2,7 +2,6 @@
 Flask Powered Vulnerable Image Generator
 
 ![](./resources/Main-1.png)
-![](./resources/Main-2.png)
 
 ## Installation
 ```
@@ -37,12 +36,21 @@ def generate():
     return redirect(url_for('static', filename='images/' + filename), code=301)
 ```
 
-[Payload](./resources/OS-Command-Injection-1.png)
-[Result](./resources/OS-Command-Injection-2.png)
+[[Payload]](./resources/OS-Command-Injection-1.png)
+[[Result]](./resources/OS-Command-Injection-2.png)
 
 ### Directory Traversal
-![](./resources/Directory-Traversal-1.png)
-![](./resources/Directory-Traversal-2.png)
+The *file* parameter (unvalidated path) in the query string of the UR  is used directly in send_file() to return the specified file without any proper validation or sanitization.
+
+```
+@app.route("/download")
+def download():
+    filename = request.args.get("file")
+    return send_file(filename)
+```
+
+[[Payload]](./resources/Directory-Traversal-1.png)
+[[Result]](./resources/Directory-Traversal-2.png)
 
 ### Unrestricted File Upload
 ![](./resources/Unrestricted-File-Upload-1.png)
