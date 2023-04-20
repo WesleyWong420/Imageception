@@ -76,7 +76,73 @@ def upload():
 
 ## Secure Coding Concepts
 ### Restriction of Special Characters (Input Sanitization)
+User input is first validated against a set of whitelisted characters. Any characters from the input field that does not belong to either of the regular expression set [a-z], [A-Z] and [0-9] are discarded before passing to the *os.system()* function.
+
+```
+@app.route('/generate', methods=['POST'])
+def generate():
+    global clean
+    if time.time() - clean > 60:
+      os.system("rm static/images/*")
+      clean = time.time()
+    text = request.form.getlist('text')[0]
+    text = text.replace("\"", "")
+    # Character Whitelisting
+    text = re.sub(r"[^a-zA-Z0-9 ]", "", text)
+    filename = "".join(random.choices(chars,k=8)) + ".png"
+    os.system(f"python3 generate.py {filename} \"{text}\"")
+    return redirect(url_for('static', filename='images/' + filename), code=301)
+```
 
 ### Pathname Canonicalization
+First, the base directory of upload folder /app/static/uploads is retrieved using the function *os.getcwd()*. The canonicalized path of the requested resource is then determined using the *realpath()* function. The resulting canonicalized path is validated to check if it starts with the base directory. If it does, access to the file is permitted. Otherwise, the user will be redirected to an error page. This is to ensure that users can only access files within the intended area of the file system.
+
+```
+def is_safe_path(basedir, path):
+    # Pathname Canonicalization
+    matchpath = os.path.realpath(path)
+    return basedir == os.path.commonpath((basedir, matchpath))
+
+@app.route("/download")
+def download():
+    filename = request.args.get("file")
+    if is_safe_path(os.getcwd(), filename):
+        return send_file(filename)
+    else:
+        return open("error.html").read()
+```
 
 ### Extension Whitelisting & Magic Header Validation (File Attributes Validation)
+
+
+```
+app = Flask(__name__)
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
+UPLOAD_FOLDER = 'static/uploads/'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['MAX_CONTENT_LENGTH'] = 24 * 1000 * 1000
+
+def validate_image(stream):
+    header = stream.read(512)
+    stream.seek(0) 
+    format = imghdr.what(None, header)
+    if not format:
+        return None
+    return (format if format != 'jpeg' else 'jpg')
+
+@app.route('/upload', methods=['POST'])
+def upload():
+    if not os.path.exists(UPLOAD_FOLDER):
+        os.makedirs(UPLOAD_FOLDER)
+
+    file = request.files["file"]
+    filename = secure_filename(file.filename)
+    file_ext = filename.rsplit('.', 1)[1].lower()
+
+    # Extension Whitelisting + Magic Header Validation
+    if file and allowed_file(file.filename) and file_ext == validate_image(file.stream):
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        return redirect(url_for('static', filename='uploads/' + filename), code=301)
+    else:
+        return open("restricted.html").read()
+```
