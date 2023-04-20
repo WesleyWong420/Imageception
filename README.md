@@ -1,6 +1,5 @@
 # Imageception
-
-![](./resources/Main-1.png)
+Flask Powered Vulnerable Image Generator
 
 ## Installation
 ```
