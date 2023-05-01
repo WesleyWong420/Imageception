@@ -20,7 +20,7 @@ curl http://localhost:1005
 ### OS Command Injection
 User input is received from the client-side without enforcing proper input validation. Unsanitized user input is passed downstream to the generator component and used directly as a parameter for *os.system()*. The *os.system()* function is used by Imageception to invoke *generate.py* as a way to implement image generation.
 
-```
+```python
 @app.route('/generate', methods=['POST'])
 def generate():
     global clean
@@ -40,7 +40,7 @@ def generate():
 ### Directory Traversal
 The *file* parameter (unvalidated path) in the query string of the UR  is used directly in *send_file()* to return the specified file without any proper validation or sanitization.
 
-```
+```python
 @app.route("/download")
 def download():
     filename = request.args.get("file")
@@ -55,7 +55,7 @@ The system does not implement any form of validation checks to ensure the integr
 
 In addition to that, the use of *os.path.join()* function also introduces Directory Traversal vulnerability when constructing the file path for saving the uploaded file. The combination of these 2 vulnerabilities allows an attacker to upload malicious files to any arbitrary location.
 
-```
+```python
 @app.route('/upload', methods=['POST'])
 def upload():
     if not os.path.exists(UPLOAD_FOLDER):
@@ -76,7 +76,7 @@ def upload():
 ### Restriction of Special Characters (Input Sanitization)
 User input is first validated against a set of whitelisted characters. Any characters from the input field that does not belong to either of the regular expression set [a-z], [A-Z] and [0-9] are discarded before passing to the *os.system()* function.
 
-```
+```python
 @app.route('/generate', methods=['POST'])
 def generate():
     global clean
@@ -95,7 +95,7 @@ def generate():
 ### Pathname Canonicalization
 First, the base directory of upload folder /app/static/uploads is retrieved using the function *os.getcwd()*. The canonicalized path of the requested resource is then determined using the *realpath()* function. The resulting canonicalized path is validated to check if it starts with the base directory. If it does, access to the file is permitted. Otherwise, the user will be redirected to an error page. This is to ensure that users can only access files within the intended area of the file system.
 
-```
+```python
 def is_safe_path(basedir, path):
     # Pathname Canonicalization
     matchpath = os.path.realpath(path)
@@ -115,7 +115,7 @@ def download():
 - Specify the maximum file size of 24MB.
 - Extract the header signature of the file stream.
 
-```
+```python
 app = Flask(__name__)
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 UPLOAD_FOLDER = 'static/uploads/'
